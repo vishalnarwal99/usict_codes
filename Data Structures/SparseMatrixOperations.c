@@ -9,29 +9,29 @@ typedef struct Triplet
 
 } Triplet;
 
-typedef struct SparseMatrix
+typedef struct Matrix
 {
     int rows;
     int columns;
     int size;
     Triplet* triplets;
 
-} SparseMatrix;
+} Matrix;
 
-int InputSparseMatrix(SparseMatrix* matrix);
-void PrintSparseMatrix(SparseMatrix* matrix);
-int AddSparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matrix_b, SparseMatrix* result);
-int TransposeSparseMatrix(const SparseMatrix* matrix, SparseMatrix* result);
-int MultiplySparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matrix_b, SparseMatrix* result);
+int InputSparseMatrix(Matrix* matrix);
+void PrintSparseMatrix(Matrix* matrix);
+int AddSparseMatrix(const Matrix* matrix_a, const Matrix* matrix_b, Matrix* result);
+int TransposeSparseMatrix(const Matrix* matrix, Matrix* result);
+int MultiplySparseMatrix(const Matrix* matrix_a, const Matrix* matrix_b, Matrix* result);
 
 int main(void)
 {
-    SparseMatrix matrix_a = { 0, 0, 0, NULL };
-    SparseMatrix matrix_b = { 0, 0, 0, NULL };
+    Matrix matrix_a = { 0, 0, 0, NULL };
+    Matrix matrix_b = { 0, 0, 0, NULL };
 
-    SparseMatrix sum = { 0, 0, 0, NULL };
-    SparseMatrix transpose = { 0, 0, 0, NULL };
-    SparseMatrix product = { 0, 0, 0, NULL };
+    Matrix sum = { 0, 0, 0, NULL };
+    Matrix transpose = { 0, 0, 0, NULL };
+    Matrix product = { 0, 0, 0, NULL };
 
     printf("Input for 'Sparse Matrix A':\n");
     if (InputSparseMatrix(&matrix_a) != 0)
@@ -79,7 +79,7 @@ int main(void)
     return 0;
 }
 
-int InputSparseMatrix(SparseMatrix* matrix)
+int InputSparseMatrix(Matrix* matrix)
 {
     printf("Enter the dimension (rows columns) of the matrix: ");
     scanf("%d %d", &matrix->rows, &matrix->columns);
@@ -104,7 +104,7 @@ int InputSparseMatrix(SparseMatrix* matrix)
     return 0;
 }
 
-void PrintSparseMatrix(SparseMatrix* matrix)
+void PrintSparseMatrix(Matrix* matrix)
 {
     printf("%5s %7s %6s\n", "Row", "Column", "Value");
 
@@ -114,7 +114,7 @@ void PrintSparseMatrix(SparseMatrix* matrix)
     }
 }
 
-int AddSparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matrix_b, SparseMatrix* result)
+int AddSparseMatrix(const Matrix* matrix_a, const Matrix* matrix_b, Matrix* result)
 {
     if (matrix_a->rows != matrix_b->rows || matrix_a->columns != matrix_b->columns)
     {
@@ -172,7 +172,7 @@ int AddSparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matrix_b, 
     return 0;
 }
 
-int TransposeSparseMatrix(const SparseMatrix* matrix, SparseMatrix* result)
+int TransposeSparseMatrix(const Matrix* matrix, Matrix* result)
 {
     result->rows = matrix->columns;
     result->columns = matrix->rows;
@@ -213,7 +213,7 @@ int TransposeSparseMatrix(const SparseMatrix* matrix, SparseMatrix* result)
     return 0;
 }
 
-int MultiplySparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matrix_b, SparseMatrix* result)
+int MultiplySparseMatrix(const Matrix* matrix_a, const Matrix* matrix_b, Matrix* result)
 {
     if (matrix_a->columns != matrix_b->rows)
     {
@@ -232,7 +232,7 @@ int MultiplySparseMatrix(const SparseMatrix* matrix_a, const SparseMatrix* matri
         return -1;
     }
 
-    SparseMatrix b_transpose = { 0, 0, 0, NULL };
+    Matrix b_transpose = { 0, 0, 0, NULL };
 
     if (TransposeSparseMatrix(matrix_b, &b_transpose) != 0)
     {
